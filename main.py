@@ -124,6 +124,11 @@ class Utilities:
     def compute_training_accuracy(self, nn_output, y_labels):
         return self.get_accuracy(nn_output, y_labels)
 
+    def write_to_file(self, file_name, value):
+        file_name += '.txt'
+        with open(file_name, 'a') as the_file:
+            the_file.write(value + '\n')
+
 
 def create_unet_architecture(nn:Layers):
     # Extract Images
@@ -210,8 +215,14 @@ def perform_tf_operations():
             valid_images, valid_labels = data.get_test_image_list_and_label_list()
             validation_accuracy = utils.compute_validation_accuracy(sess, valid_images, valid_labels)
             print("Validation accuracy: ", validation_accuracy)
+
+            utils.write_to_file('epochs', str(i))
             x_plot.append(i)
+
+            utils.write_to_file('validation_accuracy', str(validation_accuracy))
             y_plot_validation.append(validation_accuracy)
+
+            utils.write_to_file('training_Accuracy', str(training_accuracy))
             y_plot_train.append(training_accuracy)
 
     plt.plot(x_plot, y_plot_validation, label='validation')
