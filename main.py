@@ -108,8 +108,16 @@ class Layers:
 
 class Utilities:
 
+    def plot_image(self, im):
+        figure = plt.figure()
+        ax = plt.Axes(figure, [0., 0., 1., 1.])
+        figure.add_axes(ax)
+        ax.imshow(im, cmap='gray')
+        plt.show()
+
     def get_accuracy(self, prediction, labels):
         prediction = np.argmax(prediction, axis=3)
+
         correct_pix = np.sum(prediction == labels)
         inccorect_pix = np.sum(prediction != labels)
         total_pixels = correct_pix + inccorect_pix
@@ -227,12 +235,29 @@ def perform_tf_operations():
 
     plt.plot(x_plot, y_plot_validation, label='validation')
     plt.plot(x_plot, y_plot_train, label='training')
-    sess.close()
+
 
     plt.xlabel('steps')
     plt.ylabel('accuracy')
     plt.legend(loc='lower right')
     plt.show()
+
+    show_segmented_images(sess)
+    sess.close()
+
+
+def show_segmented_images(sess):
+    test_im, _ = data.get_test_image_list_and_label_list()
+
+    for i in range(2):
+        # plot original images
+        image = test_im[i]
+        im = np.array([[p[0] for p in l] for l in image])
+        utils.plot_image(im)
+        # plot segmented images
+        test_out = sess.run(output_conv, feed_dict={x_image: test_im})
+        test_prediction = np.argmax(test_out, axis=3)
+        utils.plot_image(test_prediction[i])
 
     
 if __name__ == '__main__':
