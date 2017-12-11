@@ -1,3 +1,12 @@
+"""
+Copyright 2017, University of Freiburg.
+Muhammad Hamiz Ahmed <hamizahmed93@gmail.com>
+
+This is the code for Deep Learning Lab Exercise 4
+"""
+
+
+
 import h5py
 import numpy as np
 import random
@@ -59,7 +68,7 @@ class Layers:
         return tf.Variable(initial)
 
     def bias_variable(self, shape):
-        initial = tf.constant(0.1, shape=shape)
+        initial = tf.constant(0.0, shape=shape)
         return tf.Variable(initial)
 
     def conv2d(self, x, W):
