@@ -221,12 +221,11 @@ def perform_tf_operations():
     y_plot_train = []
     x_plot = []
 
-    for i in range(10):
+    for i in range(40000):
         batch_xs, batch_ys = data.get_train_image_list_and_label_list()
         output, _ = sess.run([output_conv, train_step], feed_dict={x_image: batch_xs, y_label: batch_ys})
-        print("Mauja he mauja")
 
-        if i % 5 == 0:
+        if i % 100 == 0:
             print("Step: ", i)
             training_accuracy = utils.compute_training_accuracy(output, batch_ys)
             valid_images, valid_labels = data.get_test_image_list_and_label_list()
